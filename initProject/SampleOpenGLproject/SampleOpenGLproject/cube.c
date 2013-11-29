@@ -88,7 +88,7 @@ int main( int argc, char **argv ){
   glutInitWindowSize( IMAGE_WIDTH,IMAGE_HEIGHT );
 
   /* glutInitWindowPosition(0,0); */
-  window = glutCreateWindow( argv[0] );
+  window = glutCreateWindow( "OpenGL project of Xin, Malby, and DeStefano" );
 
   /* Register the appropriate callback functions with GLUT */
   glutDisplayFunc( display );
