@@ -16,6 +16,16 @@ static float cubeColors[6][4] =
   {0.8, 0.0, 0.8, 1.0},
 };
 
+static float otherCubeColors[6][4] =
+{
+  {0.4, 0.2, 0.4, 1.0},
+  {0.4, 0.1, 0.3, 1.0},
+  {0.0, 0.4, 0.2, 1.0},
+  {0.0, 0.9, 0.4, 1.0},
+  {0.2, 0.4, 0.4, 1.0},
+  {0.4, 0.7, 0.4, 1.0},
+};
+
 static float cubeVertexes[6][4][4] =
 {
   {
@@ -55,6 +65,46 @@ static float cubeVertexes[6][4][4] =
     {1.0, -1.0, 1.0, 1.0}}
 };
 
+//this is the same as cubeVertexes with the z coordinates increased by 10
+static float otherCubeVertexes[6][4][4] =
+{
+  {
+    {-1.0, -1.0, 9.0, 1.0},
+    {-1.0, -1.0, 11.0, 1.0},
+    {-1.0, 1.0, 11.0, 1.0},
+    {-1.0, 1.0, 9.0, 1.0}},
+
+  {
+    {1.0, 1.0, 11.0, 1.0},
+    {1.0, -1.0, 11.0, 1.0},
+    {1.0, -1.0, 9.0, 1.0},
+    {1.0, 1.0, 9.0, 1.0}},
+
+  {
+    {-1.0, -1.0, 9.0, 1.0},
+    {1.0, -1.0, 9.0, 1.0},
+    {1.0, -1.0, 11.0, 1.0},
+    {-1.0, -1.0, 11.0, 1.0}},
+
+  {
+    {1.0, 1.0, 11.0, 1.0},
+    {1.0, 1.0, 9.0, 1.0},
+    {-1.0, 1.0, 9.0, 1.0},
+    {-1.0, 1.0, 11.0, 1.0}},
+
+  {
+    {-1.0, -1.0, 9.0, 1.0},
+    {-1.0, 1.0, 9.0, 1.0},
+    {1.0, 1.0, 9.0, 1.0},
+    {1.0, -1.0, 9.0, 1.0}},
+
+  {
+    {1.0, 1.0, 11.0, 1.0},
+    {-1.0, 1.0, 11.0, 1.0},
+    {-1.0, -1.0, 11.0, 1.0},
+    {1.0, -1.0, 11.0, 1.0}}
+};
+
 void drawScene( ){
   int i;
 
@@ -65,6 +115,14 @@ void drawScene( ){
     glVertex4fv(&cubeVertexes[i][1][0]);
     glVertex4fv(&cubeVertexes[i][2][0]);
     glVertex4fv(&cubeVertexes[i][3][0]);
+    glEnd();
+
+	glBegin(GL_POLYGON);
+    glColor3fv(&otherCubeColors[i][0]);
+    glVertex4fv(&otherCubeVertexes[i][0][0]);
+    glVertex4fv(&otherCubeVertexes[i][1][0]);
+    glVertex4fv(&otherCubeVertexes[i][2][0]);
+    glVertex4fv(&otherCubeVertexes[i][3][0]);
     glEnd();
   }
 }

@@ -6,17 +6,19 @@
 
 #include <signal.h>
 //#include <unistd.h>
-
+#include<stdio.h>
 #include "inputModule.h"
+#include<time.h>
 
 static int motionMode;
 static int startX;
 static int startY;
+static int i = 0;
 static GLfloat angle = 20;    /* in degrees */
 static GLfloat angle2 = 30;   /* in degrees */
 static GLfloat xdistance = 0.0;
 static GLfloat ydistance = 0.0;
-static GLfloat zdistance = 5.0;
+static GLfloat zdistance = 30.0;
 
 
 void readKeyboard( unsigned char key, int x, int y ){
@@ -100,9 +102,22 @@ void mouseButtHandler(int button, int state, int x, int y)
 }
 
 void mouseMoveHandler( int x, int y ){
+	//x and y are locations of the mouse tip in the window
+	/*motion mode is as follows:
+		0 - no button pressed
+		1 - left button pressed
+		2 - middle button pressed
+		3 - right button pressed
+
+	*/
+	
   switch(motionMode){
   case 0:
-    /* No mouse button is pressed... do nothing */
+    /* No mouse button is pressed... rotate */
+	  angle = angle + 1;
+	  //angle2 = angle2 + 1;
+	  startX = x;
+	  startY = y;
     /* return; */
     break;
 
@@ -134,8 +149,15 @@ void mouseMoveHandler( int x, int y ){
 void setUserView( ){
   glLoadIdentity( );
   /* gluLookAt( 0.0,0.0,distance,0.0,0.0,0.0,0.0,1.0,0.0 ); */
-
   glTranslatef( -xdistance, ydistance, -zdistance );
   glRotatef( angle2, 1.0, 0.0, 0.0 );
   glRotatef( angle, 0.0, 1.0, 0.0 );
+}
+
+void sleepForTime(time_t delay){
+	time_t timer0,timer1;
+	time( &timer0);
+	do{
+		time( &timer1);
+	}while( (timer1-timer0) < delay);
 }
