@@ -6,24 +6,24 @@
 
 #include "sceneModule.h"
 
-static float cubeColors[6][4] =
+static float redColors[6][4] =
 {
-  {0.8, 0.8, 0.8, 1.0},
   {0.8, 0.0, 0.0, 1.0},
-  {0.0, 0.8, 0.0, 1.0},
-  {0.0, 0.0, 0.8, 1.0},
-  {0.0, 0.8, 0.8, 1.0},
-  {0.8, 0.0, 0.8, 1.0},
+  {0.75, 0.0, 0.0, 1.0},
+  {0.7, 0.0, 0.0, 1.0},
+  {0.65, 0.0, 0.0, 1.0},
+  {0.6, 0.0, 0.0, 1.0},
+  {0.55, 0.0, 0.0, 1.0},
 };
 
-static float otherCubeColors[6][4] =
+static float greenColors[6][4] =
 {
-  {0.4, 0.2, 0.4, 1.0},
-  {0.4, 0.1, 0.3, 1.0},
-  {0.0, 0.4, 0.2, 1.0},
-  {0.0, 0.9, 0.4, 1.0},
-  {0.2, 0.4, 0.4, 1.0},
-  {0.4, 0.7, 0.4, 1.0},
+  {0.0, 0.8, 0.0, 1.0},
+  {0.0, 0.75, 0.0, 1.0},
+  {0.0, 0.7, 0.0, 1.0},
+  {0.0, 0.65, 0.0, 1.0},
+  {0.0, 0.6, 0.0, 1.0},
+  {0.0, 0.55, 0.0, 1.0},
 };
 
 //this is modified so that all the x,y,z coordinates are doubled
@@ -111,7 +111,7 @@ void drawScene( ){
 
   for (i = 0; i < 6; ++i) {
     glBegin(GL_POLYGON);
-    glColor3fv(&cubeColors[i][0]);
+    glColor3fv(&redColors[i][0]);
     glVertex4fv(&cubeVertexes[i][0][0]);
     glVertex4fv(&cubeVertexes[i][1][0]);
     glVertex4fv(&cubeVertexes[i][2][0]);
@@ -119,7 +119,7 @@ void drawScene( ){
     glEnd();
 
 	glBegin(GL_POLYGON);
-    glColor3fv(&otherCubeColors[i][0]);
+    glColor3fv(&greenColors[i][0]);
     glVertex4fv(&otherCubeVertexes[i][0][0]);
     glVertex4fv(&otherCubeVertexes[i][1][0]);
     glVertex4fv(&otherCubeVertexes[i][2][0]);
