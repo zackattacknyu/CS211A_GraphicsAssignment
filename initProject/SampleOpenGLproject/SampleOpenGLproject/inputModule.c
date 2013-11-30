@@ -119,10 +119,6 @@ void mouseMoveHandler( int x, int y ){
   switch(motionMode){
   case 0:
     /* No mouse button is pressed... rotate */
-	  angle = angle + 1;
-	  //angle2 = angle2 + 1;
-	  startX = x;
-	  startY = y;
     /* return; */
     break;
 
