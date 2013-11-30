@@ -58,7 +58,7 @@ void initDisplay( ){
   pD.fieldOfView = 45.0;
   pD.aspect      = (float)IMAGE_WIDTH/IMAGE_HEIGHT;
   pD.nearPlane   = 0.1;
-  pD.farPlane    = 100.0;
+  pD.farPlane    = 10000.0;
 
   /* setup context */
   glMatrixMode( GL_PROJECTION );
