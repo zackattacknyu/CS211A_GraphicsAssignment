@@ -96,8 +96,7 @@ int main( int argc, char **argv ){
   glutMouseFunc( mouseButtHandler );
   glutMotionFunc( mouseMoveHandler );
   glutPassiveMotionFunc( mouseMoveHandler );
-  glutIdleFunc( NULL );
-
+  glutIdleFunc( idleHandler );
   initDisplay( );
 
   /* This function doesn't return - put all clean up code in

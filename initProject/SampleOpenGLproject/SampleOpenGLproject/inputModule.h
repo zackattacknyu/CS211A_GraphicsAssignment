@@ -23,6 +23,7 @@ void mouseButtHandler( int button, int state, int x, int y );
 void mouseMoveHandler( int x, int y );
 void setUserView( );
 void sleepForTime(time_t delay);
+void idleHandler();
 
 #ifdef __cplusplus
 }

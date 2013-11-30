@@ -101,6 +101,11 @@ void mouseButtHandler(int button, int state, int x, int y)
   glutPostRedisplay( );
 }
 
+void idleHandler(){
+	angle = angle + 0.01;
+	glutPostRedisplay( );
+}
+
 void mouseMoveHandler( int x, int y ){
 	//x and y are locations of the mouse tip in the window
 	/*motion mode is as follows:
