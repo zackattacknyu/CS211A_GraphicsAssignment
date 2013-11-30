@@ -18,7 +18,7 @@ static GLfloat angle = 20;    /* in degrees */
 static GLfloat angle2 = 30;   /* in degrees */
 static GLfloat xdistance = 0.0;
 static GLfloat ydistance = 0.0;
-static GLfloat zdistance = 30.0;
+static GLfloat zdistance = 40.0;
 
 
 void readKeyboard( unsigned char key, int x, int y ){
