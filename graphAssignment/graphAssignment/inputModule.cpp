@@ -6,6 +6,10 @@
 
 #include <signal.h>
 #include "inputModule.h"
+#include <string>
+#include <iostream>
+
+using namespace std;
 
 static int motionMode;
 static int startX;
@@ -14,10 +18,30 @@ static GLfloat angle = 20;    /* in degrees */
 static GLfloat angle2 = 30;   /* in degrees */
 static GLfloat xdistance = 0.0;
 static GLfloat ydistance = 0.0;
-static GLfloat zdistance = 5.0;
+static GLfloat zdistance = 50.0;
 
+static string delimiter = ",";
 
+string* getTokens(int numArgs, string inputStr){
+	string* returnToks = new string[numArgs];
+	int startPos = 0;
+	string token;
+	int i = 0;
+	while( startPos = inputStr.find(delimiter) != (string::npos)){
+		token = inputStr.substr(0,startPos);
+		returnToks[i] = token;
+		i++;
+		inputStr.erase(0,startPos + delimiter.length());
+	}
+	returnToks[i] = inputStr;
+	return returnToks;
+}
 void readKeyboard( unsigned char key, int x, int y ){
+	string inputStr;
+	string delimiter = ",";
+	string tokens;
+	string* theTokens;
+	//cout << key;
   switch( key ){
   case  0x1B: /* esc */
   case  'q':
@@ -26,19 +50,42 @@ void readKeyboard( unsigned char key, int x, int y ){
   case ' ':
 
     break;
+  case '-':
+	  //remove a light
+	  break;
+  case '+':
+	  //add a light
+	  break;
+  case 'p':
+	  //change position of light
+	  break;
+  case 't':
+	  //change type of light
+	  break;
   case ',':
 
     break;
   case '.':
 
     break;
+  case 'i':
+	  
+	  cin >> inputStr;
+	  theTokens = getTokens(3,inputStr);
+	  //cout << theTokens.length();
+	  for(int i = 0; i < 3; i++){
+		  
+		  cout << theTokens[i] << endl;
+	  }
+	  break;
+
   case 'r':
     /* reset initial view parameters */
     angle = 20;
     angle2 = 30;
     xdistance = 0.0;
     ydistance = 0.0;
-    zdistance = 5.0;
+    zdistance = 50.0;
     break;
   default:
     break;

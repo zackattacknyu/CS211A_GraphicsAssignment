@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Windows Desktop
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SampleOpenGLproject", "SampleOpenGLproject\SampleOpenGLproject.vcxproj", "{CA13FB36-D1C9-4159-A2A2-10510B57EFD5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{718733F3-7A9E-44A5-B50A-AD8641218565}"
+	ProjectSection(SolutionItems) = preProject
+		SampleOpenGLproject\cube.c = SampleOpenGLproject\cube.c
+		SampleOpenGLproject\inputModule.c = SampleOpenGLproject\inputModule.c
+		SampleOpenGLproject\inputModule.h = SampleOpenGLproject\inputModule.h
+		SampleOpenGLproject\sceneModule.c = SampleOpenGLproject\sceneModule.c
+		SampleOpenGLproject\sceneModule.h = SampleOpenGLproject\sceneModule.h
+		SampleOpenGLproject\viewModule.h = SampleOpenGLproject\viewModule.h
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CA13FB36-D1C9-4159-A2A2-10510B57EFD5}.Debug|Win32.ActiveCfg = Debug|Win32
+		{CA13FB36-D1C9-4159-A2A2-10510B57EFD5}.Debug|Win32.Build.0 = Debug|Win32
+		{CA13FB36-D1C9-4159-A2A2-10510B57EFD5}.Release|Win32.ActiveCfg = Release|Win32
+		{CA13FB36-D1C9-4159-A2A2-10510B57EFD5}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

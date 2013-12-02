@@ -10,10 +10,11 @@
 #include <math.h>
 #include <glut.h>
 #include <signal.h>
-
+#include <iostream>
 #include "sceneModule.h"
 #include "viewModule.h"
 #include "inputModule.h"
+using namespace std;
 
 int window;
 int updateFlag;
@@ -36,14 +37,27 @@ void display( void ){
   glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
   glColor3f( 1.0, 1.0, 1.0 );
 
+
   /* Set up where the projection */
   setUserView( );
   /* Draw the scene into the back buffer */
+
+  
+  //glLoadIdentity();
+  GLfloat ambientColor[] = {0.2f,0.2f,0.2f,1.0f};
+  glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambientColor);
+
+  GLfloat lightColor[] = {0.5f,0.5f,0.5f,1.0f};
+  GLfloat lightPos[] = {0.0f, 0.0f, 5.0f,1.0f};
+  glLightfv(GL_LIGHT0,GL_SPECULAR,lightColor);
+  glLightfv(GL_LIGHT0,GL_POSITION,lightPos);
+
 
   glTranslatef(position_cube_1[0],position_cube_1[1],position_cube_1[2]);
   glRotatef(ang1,0,1,0);
   glPushMatrix();
   glScalef(scale_cube_1[0],scale_cube_1[1],scale_cube_1[2]);
+  glColor3f(1.0,0.0,0.0);
   drawScene( ); //cube one
   glPopMatrix();
 
@@ -57,10 +71,12 @@ void display( void ){
   glRotatef(ang2,0,1,0);
   glTranslatef(position_cube_3[0],position_cube_3[1],position_cube_3[2]);
   glScalef(scale_cube_3[0],scale_cube_3[1],scale_cube_3[2]);
+  glColor3f(0.0,1.0,0.0);
   drawScene( ); //cube three
   glPopMatrix();
 
   glScalef(scale_cube_2[0],scale_cube_2[1],scale_cube_2[2]);
+  glColor3f(0.0,0.0,1.0);
   drawScene( ); //cube two
   glPopMatrix();
 
@@ -92,6 +108,12 @@ void initDisplay( ){
   glClearColor( 0.0, 0.0, 0.0, 1.0 );
   glClearIndex( 0 );
   glClearDepth( 1 );
+
+  glEnable(GL_COLOR_MATERIAL);
+  glEnable(GL_LIGHTING);
+
+  glEnable(GL_LIGHT0);
+  glEnable(GL_NORMALIZE);
 
   glMatrixMode( GL_MODELVIEW );
 }

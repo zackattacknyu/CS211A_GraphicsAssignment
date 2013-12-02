@@ -9,9 +9,12 @@
 
 #include <stdlib.h>
 #include <glut.h>
+#include <string>
 
 extern int screenWidth;
 extern int screenHeight;
+
+//string* getTokens(int numArgs, string inputStr);
 
 void readKeyboard( unsigned char key, int x, int y );
 void readSpecialKeys( int key, int x, int y );

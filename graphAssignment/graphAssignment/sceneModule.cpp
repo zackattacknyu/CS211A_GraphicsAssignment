@@ -16,6 +16,15 @@ static float cubeColors[6][4] =
   {0.8, 0.0, 0.8, 1.0},
 };
 
+static float normals[6][3] = {
+	{-1.0,0.0,0.0},
+	{1.0,0.0,0.0},
+	{0.0,-1.0,0.0},
+	{0.0,1.0,0.0},
+	{0.0,0.0,-1.0},
+	{0.0,0.0,1.0}
+};
+
 static float cubeVertexes[6][4][4] =
 {
   {
@@ -60,7 +69,8 @@ void drawScene( ){
 
   for (i = 0; i < 6; ++i) {
     glBegin(GL_POLYGON);
-    glColor3fv(&cubeColors[i][0]);
+    //glColor3fv(&cubeColors[i][0]);
+	glNormal3f(normals[i][0],normals[i][1],normals[i][2]);
     glVertex4fv(&cubeVertexes[i][0][0]);
     glVertex4fv(&cubeVertexes[i][1][0]);
     glVertex4fv(&cubeVertexes[i][2][0]);
