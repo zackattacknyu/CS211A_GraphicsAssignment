@@ -87,22 +87,49 @@ void readKeyboard( unsigned char key, int x, int y ){
     lightZ += 1.0;
     break; 
   case 'f':
-    ambient -= 5;
+    if (ambient > 0) {
+      ambient -= 5;
+    }
     break;
   case 'g':
-    ambient += 5;
+    if (ambient < 100) {
+      ambient += 5;
+    }
     break;
   case 'h':
-    diffuse -= 5;
+    if (diffuse > 0) {
+      diffuse -= 5;
+    }
     break;
   case 'v':
-    diffuse += 5;
+    if (diffuse < 100) {
+      diffuse += 5;
+    }
     break;
   case 'b':
-    specular -= 5;
+    if (specular > 0) {
+      specular -= 5;
+    }
     break;
   case 'n':
-    specular += 5;
+    if (specular < 100) {
+      specular += 5;
+    }
+  case '[':
+    if (shine > 0) {
+      shine -= 1;
+    }
+    break;
+  case ']':
+    if (shine < 100) {
+      shine += 1;
+    }
+    break;
+  case 'c':
+    if (colorIndex == 7) {
+      colorIndex = 0;
+    }
+    colorIndex += 1;
     break;
   case 'l':
     int lightNum;

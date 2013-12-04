@@ -14,7 +14,8 @@
 #include "sceneModule.h"
 #include "viewModule.h"
 #include "inputModule.h"
-#include "globals.h" 
+#include "globals.h"
+#include "print.h" 
 using namespace std;
 
 int window;
@@ -134,9 +135,21 @@ void drawLight() {
     glEnable(GL_NORMALIZE);
     glEnable(GL_LIGHTING); 
     glEnable(lightSelected);
+    glMaterialfv(GL_FRONT,GL_DIFFUSE,colors[0]);
+    glMaterialfv(GL_FRONT,GL_SPECULAR,colors[colorIndex]);
+    GLfloat shineV[] = {shine};
+    glMaterialfv(GL_FRONT,GL_SHININESS, shineV);
   }
   else
     glDisable(lightSelected);
+}
+
+void drawSettings(void) {
+  glColor3f(1.0, 1.0, 1.0);
+  if (lightOn) {
+    printAt(5, 40, "Ambient:%d, Diffuse:%d, Specular:%d, Shine:%d", ambient, diffuse, specular, shine);
+    printAt(5, 20, "Light %d at position: x:%d, y:%d, z:%d", lightSelected - 16384, lightX, lightY, lightZ);
+  }
 }
 
 void display( void ){
@@ -146,6 +159,9 @@ void display( void ){
   /* Set up where the projection */
   setUserView( );
   /* Draw the scene into the back buffer */
+
+  // Display the current settings
+  drawSettings();
 
   // Bring the lights into the scene
   drawLight();
