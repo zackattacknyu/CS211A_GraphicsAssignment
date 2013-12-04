@@ -95,13 +95,13 @@ void drawGeometry() {
   glPopMatrix();
 }
 
+void setSingleLight(int curLightNum, int curLight) {
 
-void drawLight() {
-  if (lightOn == true) {
-    GLfloat Ambient[]   = {0.01*ambient ,0.01*ambient ,0.01*ambient ,1.0};
-    GLfloat Diffuse[]   = {0.01*diffuse ,0.01*diffuse ,0.01*diffuse ,1.0};
-    GLfloat Specular[]  = {0.01*specular,0.01*specular,0.01*specular,1.0};
-    GLfloat Position[]  = {lightX,lightY,lightZ,1.0};
+  if (lightOn[curLightNum] == true) {
+    GLfloat Ambient[]   = {0.01*ambient[curLightNum] ,0.01*ambient[curLightNum] ,0.01*ambient[curLightNum] ,1.0};
+    GLfloat Diffuse[]   = {0.01*diffuse[curLightNum] ,0.01*diffuse[curLightNum] ,0.01*diffuse[curLightNum] ,1.0};
+    GLfloat Specular[]  = {0.01*specular[curLightNum],0.01*specular[curLightNum],0.01*specular[curLightNum],1.0};
+    GLfloat Position[]  = {lightX[curLightNum],lightY[curLightNum],lightZ[curLightNum],1.0};
 
     /*  Draw light position as sphere (still no lighting here) */
     glColor3f(1.0, 1.0, 1.0);
@@ -134,21 +134,55 @@ void drawLight() {
       /*  Other examples */
     glEnable(GL_NORMALIZE);
     glEnable(GL_LIGHTING); 
-    glEnable(lightSelected);
+    glEnable(curLight);
     glMaterialfv(GL_FRONT,GL_DIFFUSE,colors[0]);
     glMaterialfv(GL_FRONT,GL_SPECULAR,colors[colorIndex]);
-    GLfloat shineV[] = {shine};
+    GLfloat shineV[] = {shine[curLightNum]};
     glMaterialfv(GL_FRONT,GL_SHININESS, shineV);
   }
   else
-    glDisable(lightSelected);
+    glDisable(curLight);
+}
+
+void drawLights() {
+  int curLight = 0;
+  for (int i = 0; i < 8; i++) {
+    switch (i) {
+      case 0:
+        curLight = GL_LIGHT0;
+        break;
+      case 1:
+        curLight = GL_LIGHT1;
+        break;
+      case 2:
+        curLight = GL_LIGHT2;
+        break;
+      case 3:
+        curLight = GL_LIGHT3;
+        break;
+      case 4:
+        curLight = GL_LIGHT4;
+        break;
+      case 5:
+        curLight = GL_LIGHT5;
+        break;
+      case 6:
+        curLight = GL_LIGHT6;
+        break;
+      case 7:
+        curLight = GL_LIGHT7;
+        break;
+    }
+    setSingleLight(i, curLight);
+  }
 }
 
 void drawSettings(void) {
+  int lS = lightSelected - 16384;
   glColor3f(1.0, 1.0, 1.0);
-  if (lightOn) {
-    printAt(5, 40, "Ambient:%d, Diffuse:%d, Specular:%d, Shine:%d", ambient, diffuse, specular, shine);
-    printAt(5, 20, "Light %d at position: x:%d, y:%d, z:%d", lightSelected - 16384, lightX, lightY, lightZ);
+  if (lightOn[lS]) {
+    printAt(5, 40, "Ambient:%d, Diffuse:%d, Specular:%d, Shine:%d", ambient[lS], diffuse[lS], specular[lS], shine[lS]);
+    printAt(5, 20, "Light %d at position: x:%d, y:%d, z:%d", lS, lightX[lS], lightY[lS], lightZ[lS]);
   }
 }
 
@@ -164,7 +198,7 @@ void display( void ){
   drawSettings();
 
   // Bring the lights into the scene
-  drawLight();
+  drawLights();
 
   // Draw the scene objects
   drawGeometry();
@@ -172,6 +206,19 @@ void display( void ){
 
   /* Swap the front buffer with the back buffer - assumes double buffering */
   glutSwapBuffers( );
+}
+
+void initVariables(void) {
+  for (int i = 0; i < 8; i++) {
+    ambient[i] = 20;
+    diffuse[i] = 80;
+    specular[i] = 0;
+    lightOn[i] = 0;
+    lightX[i] = 0;
+    lightY[i] = 0;
+    lightZ[i] = 0;
+    shine[i] = 0;
+  }
 }
 
 //##########################################
@@ -188,7 +235,9 @@ int main( int argc, char **argv ){
   glutInitWindowSize( IMAGE_WIDTH,IMAGE_HEIGHT );
 
   /* glutInitWindowPosition(0,0); */
-  window = glutCreateWindow( "Fuck this shit" );
+  window = glutCreateWindow( "Xin | DeStefano | Malby - Graphics Assignment" );
+
+  initVariables( );
 
   initDisplay( );
 

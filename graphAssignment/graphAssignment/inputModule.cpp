@@ -44,6 +44,7 @@ void readKeyboard( unsigned char key, int x, int y ){
 	string delimiter = ",";
 	string tokens;
 	string* theTokens;
+  int ls = lightSelected - 16384;
 	//cout << key;
   switch( key ){
   case  0x1B: /* esc */
@@ -69,60 +70,60 @@ void readKeyboard( unsigned char key, int x, int y ){
 
     break;
   case 'w':
-    lightY += 1.0;
+    lightY[ls] += 1.0;
     break;
   case 'a':
-    lightX -= 1.0;
+    lightX[ls] -= 1.0;
     break;
   case 's':
-    lightY -= 1.0;
+    lightY[ls] -= 1.0;
     break;
   case 'd':
-    lightX += 1.0;
+    lightX[ls] += 1.0;
     break;
   case 'i':
-    lightZ -= 1.0;
+    lightZ[ls] -= 1.0;
     break;
   case 'o':
-    lightZ += 1.0;
+    lightZ[ls] += 1.0;
     break; 
   case 'f':
-    if (ambient > 0) {
-      ambient -= 5;
+    if (ambient[ls] > 0) {
+      ambient[ls] -= 5;
     }
     break;
   case 'g':
-    if (ambient < 100) {
-      ambient += 5;
+    if (ambient[ls] < 100) {
+      ambient[ls] += 5;
     }
     break;
   case 'h':
-    if (diffuse > 0) {
-      diffuse -= 5;
+    if (diffuse[ls] > 0) {
+      diffuse[ls] -= 5;
     }
     break;
   case 'v':
-    if (diffuse < 100) {
-      diffuse += 5;
+    if (diffuse[ls] < 100) {
+      diffuse[ls] += 5;
     }
     break;
   case 'b':
-    if (specular > 0) {
-      specular -= 5;
+    if (specular[ls] > 0) {
+      specular[ls] -= 5;
     }
     break;
   case 'n':
-    if (specular < 100) {
-      specular += 5;
+    if (specular[ls] < 100) {
+      specular[ls] += 5;
     }
   case '[':
-    if (shine > 0) {
-      shine -= 1;
+    if (shine[ls] > 0) {
+      shine[ls] -= 1;
     }
     break;
   case ']':
-    if (shine < 100) {
-      shine += 1;
+    if (shine[ls] < 100) {
+      shine[ls] += 1;
     }
     break;
   case 'c':
@@ -166,10 +167,10 @@ void readKeyboard( unsigned char key, int x, int y ){
     }
 
     case 'p':
-      lightOn = 1;
+      lightOn[ls] = 1;
       break;
     case 'u':
-      lightOn = 0;
+      lightOn[ls] = 0;
       break;
 
   case 'r':

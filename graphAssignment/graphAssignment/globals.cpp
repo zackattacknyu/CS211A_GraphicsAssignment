@@ -1,14 +1,14 @@
 #include "globals.h"
 
-int ambient = 20;
-int diffuse = 80;
-int specular = 0;
-int lightOn = 0;
+int ambient[8];
+int diffuse[8];
+int specular[8];
+int lightOn[8];
 int lightSelected = 0;
-int lightX = 0;
-int lightY = 0;
-int lightZ = 0;
-int shine = 0;
+int lightX[8];
+int lightY[8];
+int lightZ[8];
+int shine[8];
 int colorIndex = 0;
 
 float colors[8][4] = {
