@@ -8,12 +8,13 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
-#include <glut.h>
+#include <GL/glut.h>
 #include <signal.h>
 #include <iostream>
 #include "sceneModule.h"
 #include "viewModule.h"
 #include "inputModule.h"
+#include "globals.h" 
 using namespace std;
 
 int window;
@@ -32,27 +33,39 @@ void cleanup( int sig ){
 #ifdef __cplusplus
 extern "C"
 #endif
-void display( void ){
-  glutSetWindow(window);
-  glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-  glColor3f( 1.0, 1.0, 1.0 );
 
+void idle()
+{
+	ang1+=delta_ang1;
+	ang2+=delta_ang2;
+	glutPostRedisplay( );
+}
 
-  /* Set up where the projection */
-  setUserView( );
-  /* Draw the scene into the back buffer */
+void displayStart(void) {
+  glClearColor(0.0,0.0,0.0,1.0);
+  glClearIndex( 0 );
+  glClearDepth( 1 );
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  glEnable(GL_DEPTH_TEST);
+  glLoadIdentity();
+}
 
-  
-  //glLoadIdentity();
-  GLfloat ambientColor[] = {0.2f,0.2f,0.2f,1.0f};
-  glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambientColor);
+void initDisplay( ){
+  /* Perspective projection parameters */
+  pD.fieldOfView = 45.0;
+  pD.aspect      = (float)IMAGE_WIDTH/IMAGE_HEIGHT;
+  pD.nearPlane   = 0.1;
+  pD.farPlane    = 200.0;
 
-  GLfloat lightColor[] = {0.5f,0.5f,0.5f,1.0f};
-  GLfloat lightPos[] = {0.0f, 0.0f, 5.0f,1.0f};
-  glLightfv(GL_LIGHT0,GL_SPECULAR,lightColor);
-  glLightfv(GL_LIGHT0,GL_POSITION,lightPos);
+  /* setup context */
+  glMatrixMode( GL_PROJECTION );
+  glLoadIdentity( );
+  gluPerspective( pD.fieldOfView, pD.aspect, pD.nearPlane, pD.farPlane );
+  glMatrixMode( GL_MODELVIEW );
+  glLoadIdentity();
+}
 
-
+void drawGeometry() {
   glTranslatef(position_cube_1[0],position_cube_1[1],position_cube_1[2]);
   glRotatef(ang1,0,1,0);
   glPushMatrix();
@@ -79,43 +92,72 @@ void display( void ){
   glColor3f(0.0,0.0,1.0);
   drawScene( ); //cube two
   glPopMatrix();
+}
+
+
+void drawLight() {
+  if (lightOn == true) {
+    GLfloat Ambient[]   = {0.01*ambient ,0.01*ambient ,0.01*ambient ,1.0};
+    GLfloat Diffuse[]   = {0.01*diffuse ,0.01*diffuse ,0.01*diffuse ,1.0};
+    GLfloat Specular[]  = {0.01*specular,0.01*specular,0.01*specular,1.0};
+    GLfloat Position[]  = {lightX,lightY,lightZ,1.0};
+
+    /*  Draw light position as sphere (still no lighting here) */
+    glColor3f(1.0, 1.0, 1.0);
+    glDisable(GL_LIGHTING);
+    glTranslatef(Position[0],Position[1],Position[2]);
+    glPushMatrix();
+    glutSolidSphere(0.5,100.0,100.0);
+    glPopMatrix();
+
+
+    /*  Set ambient, diffuse, specular components and position of light 0 */
+    /*
+      Light uses the Phong model
+      Once light is enabled, colors assigned by glColor* isn't used
+      Ambient is light that's been scattered by environment that its direction is impossible to determine
+      Diffuse is is light that comes from one direction, so it's brighter if it comes squarely on surface rather than glances off
+      Specular is light that comes from a particular direction and bounces off in preferred direction
+      Position is the position of our light. In this case it is the same as the sphere.
+     */
+    glLightfv(lightSelected,GL_AMBIENT, Ambient);
+    glLightfv(lightSelected,GL_DIFFUSE, Diffuse);
+    glLightfv(lightSelected,GL_POSITION,Position);
+    glLightfv(lightSelected,GL_SPECULAR,Specular);
+      /*  Use glColorMaterial when you need to change a single material parameter for most vertices
+    in your scene */
+      /*  glColorMaterial sets ambient and diffuse color materials */
+    glEnable(GL_COLOR_MATERIAL);
+    glColorMaterial(GL_FRONT_AND_BACK,GL_AMBIENT_AND_DIFFUSE);
+      /*  Now glColor* changes ambient and diffuse reflection */
+      /*  Other examples */
+    glEnable(GL_NORMALIZE);
+    glEnable(GL_LIGHTING); 
+    cout << "GL Light: " << hex << GL_LIGHT0 << endl;
+    cout << "Light selected: " << hex << lightSelected << endl;
+    glEnable(lightSelected);
+  }
+  else
+    glDisable(lightSelected);
+}
+
+void display( void ){
+  displayStart();
+  //glutSetWindow(window);
+
+  /* Set up where the projection */
+  setUserView( );
+  /* Draw the scene into the back buffer */
+
+  // Bring the lights into the scene
+  drawLight();
+
+  // Draw the scene objects
+  drawGeometry();
+  glFlush();
 
   /* Swap the front buffer with the back buffer - assumes double buffering */
   glutSwapBuffers( );
-}
-
-void idle()
-{
-	ang1+=delta_ang1;
-	ang2+=delta_ang2;
-	glutPostRedisplay( );
-}
-void initDisplay( ){
-  /* Perspective projection parameters */
-  pD.fieldOfView = 45.0;
-  pD.aspect      = (float)IMAGE_WIDTH/IMAGE_HEIGHT;
-  pD.nearPlane   = 0.1;
-  pD.farPlane    = 200.0;
-
-  /* setup context */
-  glMatrixMode( GL_PROJECTION );
-  glLoadIdentity( );
-  gluPerspective( pD.fieldOfView, pD.aspect, pD.nearPlane, pD.farPlane );
-
-  glEnable( GL_DEPTH_TEST );
-  glDisable( GL_CULL_FACE );
-
-  glClearColor( 0.0, 0.0, 0.0, 1.0 );
-  glClearIndex( 0 );
-  glClearDepth( 1 );
-
-  glEnable(GL_COLOR_MATERIAL);
-  glEnable(GL_LIGHTING);
-
-  glEnable(GL_LIGHT0);
-  glEnable(GL_NORMALIZE);
-
-  glMatrixMode( GL_MODELVIEW );
 }
 
 //##########################################
@@ -124,6 +166,7 @@ void initDisplay( ){
 int main( int argc, char **argv ){
 //  signal( SIGHUP, cleanup );
 
+  lightSelected = GL_LIGHT0;
   glutInit( &argc, argv );
   glutInitDisplayMode( GLUT_DOUBLE | GLUT_RGB |
                        GLUT_DEPTH | GLUT_MULTISAMPLE );
@@ -131,7 +174,9 @@ int main( int argc, char **argv ){
   glutInitWindowSize( IMAGE_WIDTH,IMAGE_HEIGHT );
 
   /* glutInitWindowPosition(0,0); */
-  window = glutCreateWindow( argv[0] );
+  window = glutCreateWindow( "Fuck this shit" );
+
+  initDisplay( );
 
   /* Register the appropriate callback functions with GLUT */
   glutDisplayFunc( display );
@@ -140,8 +185,6 @@ int main( int argc, char **argv ){
   glutMotionFunc( mouseMoveHandler );
   glutPassiveMotionFunc( mouseMoveHandler );
   glutIdleFunc( idle );
-
-  initDisplay( );
 
   /* This function doesn't return - put all clean up code in
    * the cleanup function */

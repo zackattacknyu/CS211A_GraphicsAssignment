@@ -8,6 +8,8 @@
 #include "inputModule.h"
 #include <string>
 #include <iostream>
+#include <sstream>
+#include "globals.h" 
 
 using namespace std;
 
@@ -19,6 +21,7 @@ static GLfloat angle2 = 30;   /* in degrees */
 static GLfloat xdistance = 0.0;
 static GLfloat ydistance = 0.0;
 static GLfloat zdistance = 50.0;
+string* theToken;
 
 static string delimiter = ",";
 
@@ -27,7 +30,7 @@ string* getTokens(int numArgs, string inputStr){
 	int startPos = 0;
 	string token;
 	int i = 0;
-	while( startPos = inputStr.find(delimiter) != (string::npos)){
+	while( (startPos = inputStr.find(delimiter)) != (string::npos)){
 		token = inputStr.substr(0,startPos);
 		returnToks[i] = token;
 		i++;
@@ -56,9 +59,6 @@ void readKeyboard( unsigned char key, int x, int y ){
   case '+':
 	  //add a light
 	  break;
-  case 'p':
-	  //change position of light
-	  break;
   case 't':
 	  //change type of light
 	  break;
@@ -68,16 +68,84 @@ void readKeyboard( unsigned char key, int x, int y ){
   case '.':
 
     break;
+  case 'w':
+    lightY += 1.0;
+    break;
+  case 'a':
+    lightX -= 1.0;
+    break;
+  case 's':
+    lightY -= 1.0;
+    break;
+  case 'd':
+    lightX += 1.0;
+    break;
   case 'i':
-	  
-	  cin >> inputStr;
-	  theTokens = getTokens(3,inputStr);
-	  //cout << theTokens.length();
-	  for(int i = 0; i < 3; i++){
-		  
-		  cout << theTokens[i] << endl;
-	  }
-	  break;
+    lightZ -= 1.0;
+    break;
+  case 'o':
+    lightZ += 1.0;
+    break; 
+  case 'f':
+    ambient -= 5;
+    break;
+  case 'g':
+    ambient += 5;
+    break;
+  case 'h':
+    diffuse -= 5;
+    break;
+  case 'v':
+    diffuse += 5;
+    break;
+  case 'b':
+    specular -= 5;
+    break;
+  case 'n':
+    specular += 5;
+    break;
+  case 'l':
+    // int lightNum;
+    // cout << "Enter the number of the light you would like to select." << endl;
+    // cin >> inputStr;
+    // theToken[0] = getTokens(1, inputStr);
+    // istringstream(theToken) >> lightNum;
+
+    switch(lightSelected) {
+      case 0:
+        cout << "Light selected: " << lightSelected << endl;
+        lightSelected = GL_LIGHT0;
+        cout << "Light selected after: " << lightSelected << endl;
+        break;
+      case 1:
+        lightSelected = GL_LIGHT1;
+        break;
+      case 2:
+        lightSelected = GL_LIGHT2;
+        break;
+      case 3:
+        lightSelected = GL_LIGHT3;
+        break;
+      case 4:
+        lightSelected - GL_LIGHT4;
+        break;
+      case 5:
+        lightSelected = GL_LIGHT5;
+        break;
+      case 6:
+        lightSelected = GL_LIGHT6;
+        break;
+      case 7:
+        lightSelected = GL_LIGHT7;
+        break;
+    }
+
+    case 'p':
+      lightOn = 1;
+      break;
+    case 'u':
+      lightOn = 0;
+      break;
 
   case 'r':
     /* reset initial view parameters */
@@ -94,6 +162,7 @@ void readKeyboard( unsigned char key, int x, int y ){
 }
 
 void readSpecialKeys( int key, int x, int y ){
+  cout << key << endl;
   switch( key ){
   case GLUT_KEY_UP:
 

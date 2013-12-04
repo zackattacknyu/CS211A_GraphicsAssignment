@@ -8,7 +8,7 @@
 #define __INPUTMODULE_H
 
 #include <stdlib.h>
-#include <glut.h>
+#include <GL/glut.h>
 #include <string>
 
 extern int screenWidth;
