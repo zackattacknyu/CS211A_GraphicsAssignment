@@ -45,6 +45,7 @@ void readKeyboard( unsigned char key, int x, int y ){
 	string tokens;
 	string* theTokens;
   int ls = lightSelected - 16384;
+  int mod = glutGetModifiers();
 	//cout << key;
   switch( key ){
   case  0x1B: /* esc */
@@ -55,73 +56,56 @@ void readKeyboard( unsigned char key, int x, int y ){
 
     break;
   case '-':
+    if (ls > 0)
+      lightSelected--;
 	  //remove a light
 	  break;
   case '+':
+    if (ls < 7)
+      lightSelected++;
 	  //add a light
 	  break;
-  case 't':
-	  //change type of light
-	  break;
-  case ',':
-
-    break;
-  case '.':
-
-    break;
-  case 'w':
-    lightY[ls] += 1.0;
-    break;
-  case 'a':
-    lightX[ls] -= 1.0;
-    break;
-  case 's':
-    lightY[ls] -= 1.0;
-    break;
-  case 'd':
-    lightX[ls] += 1.0;
-    break;
-  case 'i':
+  case '1':
     lightZ[ls] -= 1.0;
     break;
-  case 'o':
+  case '2':
     lightZ[ls] += 1.0;
     break; 
-  case 'f':
+  case 'a':
     if (ambient[ls] > 0) {
       ambient[ls] -= 5;
     }
     break;
-  case 'g':
+  case 'A':
     if (ambient[ls] < 100) {
       ambient[ls] += 5;
     }
     break;
-  case 'h':
+  case 'd':
     if (diffuse[ls] > 0) {
       diffuse[ls] -= 5;
     }
     break;
-  case 'v':
+  case 'D':
     if (diffuse[ls] < 100) {
       diffuse[ls] += 5;
     }
     break;
-  case 'b':
+  case 's':
     if (specular[ls] > 0) {
       specular[ls] -= 5;
     }
     break;
-  case 'n':
+  case 'S':
     if (specular[ls] < 100) {
       specular[ls] += 5;
     }
-  case '[':
+  case 'z':
     if (shine[ls] > 0) {
       shine[ls] -= 1;
     }
     break;
-  case ']':
+  case 'Z':
     if (shine[ls] < 100) {
       shine[ls] += 1;
     }
@@ -166,11 +150,11 @@ void readKeyboard( unsigned char key, int x, int y ){
         break;
     }
 
-    case 'p':
-      lightOn[ls] = 1;
-      break;
-    case 'u':
-      lightOn[ls] = 0;
+    case 'o':
+      if (lightOn[ls] == 1)
+        lightOn[ls] = 0;
+      else
+        lightOn[ls] = 1;
       break;
 
   case 'r':

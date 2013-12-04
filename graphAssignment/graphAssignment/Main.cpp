@@ -208,6 +208,25 @@ void display( void ){
   glutSwapBuffers( );
 }
 
+void specialKeys(int key, int x, int y)
+{
+    int ls = lightSelected - 16384;
+    switch (key) {
+      case 101:
+        lightY[ls] += 1.0;
+        break;
+      case 100:
+        lightX[ls] -= 1.0;
+        break;
+      case 103:
+        lightY[ls] -= 1.0;
+        break;
+      case 102:
+        lightX[ls] += 1.0;
+        break;
+    }
+  }
+
 void initVariables(void) {
   for (int i = 0; i < 8; i++) {
     ambient[i] = 20;
@@ -248,6 +267,7 @@ int main( int argc, char **argv ){
   glutMotionFunc( mouseMoveHandler );
   glutPassiveMotionFunc( mouseMoveHandler );
   glutIdleFunc( idle );
+  glutSpecialFunc( specialKeys );
 
   /* This function doesn't return - put all clean up code in
    * the cleanup function */
