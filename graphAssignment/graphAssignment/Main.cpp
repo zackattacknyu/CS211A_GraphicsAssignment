@@ -105,8 +105,8 @@ void drawLight() {
     /*  Draw light position as sphere (still no lighting here) */
     glColor3f(1.0, 1.0, 1.0);
     glDisable(GL_LIGHTING);
-    glTranslatef(Position[0],Position[1],Position[2]);
     glPushMatrix();
+    glTranslatef(Position[0],Position[1],Position[2]);
     glutSolidSphere(0.5,100.0,100.0);
     glPopMatrix();
 
@@ -133,8 +133,6 @@ void drawLight() {
       /*  Other examples */
     glEnable(GL_NORMALIZE);
     glEnable(GL_LIGHTING); 
-    cout << "GL Light: " << hex << GL_LIGHT0 << endl;
-    cout << "Light selected: " << hex << lightSelected << endl;
     glEnable(lightSelected);
   }
   else

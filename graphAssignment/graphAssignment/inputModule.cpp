@@ -105,17 +105,15 @@ void readKeyboard( unsigned char key, int x, int y ){
     specular += 5;
     break;
   case 'l':
-    // int lightNum;
-    // cout << "Enter the number of the light you would like to select." << endl;
-    // cin >> inputStr;
-    // theToken[0] = getTokens(1, inputStr);
-    // istringstream(theToken) >> lightNum;
+    int lightNum;
+    cout << "Enter the number of the light you would like to select." << endl;
+    cin >> inputStr;
+    theToken = getTokens(1, inputStr);
+    istringstream(theToken[0]) >> lightNum;
 
-    switch(lightSelected) {
+    switch(lightNum) {
       case 0:
-        cout << "Light selected: " << lightSelected << endl;
         lightSelected = GL_LIGHT0;
-        cout << "Light selected after: " << lightSelected << endl;
         break;
       case 1:
         lightSelected = GL_LIGHT1;

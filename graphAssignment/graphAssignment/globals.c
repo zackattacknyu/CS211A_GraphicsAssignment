@@ -1,3 +1,5 @@
+#include "globals.h"
+
 int ambient = 20;
 int diffuse = 80;
 int specular = 0;
