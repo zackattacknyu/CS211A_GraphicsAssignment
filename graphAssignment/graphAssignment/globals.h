@@ -12,3 +12,4 @@ extern int lightZ[8];
 extern int shine[8];
 extern int colorIndex;
 extern float colors[8][4];
+extern int myGlLibrary;

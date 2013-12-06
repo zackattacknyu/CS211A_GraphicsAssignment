@@ -157,6 +157,13 @@ void readKeyboard( unsigned char key, int x, int y ){
         lightOn[ls] = 1;
       break;
 
+    case 'm':
+      if (myGlLibrary == 0)
+        myGlLibrary = 1;
+      else
+        myGlLibrary = 0;
+      break;
+
   case 'r':
     /* reset initial view parameters */
     angle = 20;
@@ -256,10 +263,10 @@ void mouseMoveHandler( int x, int y ){
 }
 
 void setUserView( ){
-  glLoadIdentity( );
+  myGlLibrary ? my_GL_LoadIdentity() : glLoadIdentity( );
   /* gluLookAt( 0.0,0.0,distance,0.0,0.0,0.0,0.0,1.0,0.0 ); */
 
-  glTranslatef( -xdistance, ydistance, -zdistance );
-  glRotatef( angle2, 1.0, 0.0, 0.0 );
-  glRotatef( angle, 0.0, 1.0, 0.0 );
+  myGlLibrary ? my_GL_translatef(-xdistance, ydistance, -zdistance) : glTranslatef(-xdistance, ydistance, -zdistance);
+  myGlLibrary ? my_GL_rotatef(angle2, 1.0, 0.0, 0.0) : glRotatef( angle2, 1.0, 0.0, 0.0 );
+  myGlLibrary ? my_GL_rotatef(angle, 0.0, 1.0, 0.0) : glRotatef( angle, 0.0, 1.0, 0.0 );
 }

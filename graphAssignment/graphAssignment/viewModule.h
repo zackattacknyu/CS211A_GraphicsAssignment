@@ -26,5 +26,5 @@ static float scale_cube_3[3] = {0.5, 0.5, 0.5};
 static float ang1=0;
 static float delta_ang1=1;
 static float ang2=0;
-static float delta_ang2=1.45;
+static float delta_ang2=2;
 #endif

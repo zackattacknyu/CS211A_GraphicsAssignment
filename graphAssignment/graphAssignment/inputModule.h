@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include <GL/glut.h>
 #include <string>
+#include "my_gl_library.h"
 
 extern int screenWidth;
 extern int screenHeight;

@@ -10,6 +10,7 @@ int lightY[8];
 int lightZ[8];
 int shine[8];
 int colorIndex = 0;
+int myGlLibrary = 0;
 
 float colors[8][4] = {
     {1.0,1.0,1.0,1.0}, //white

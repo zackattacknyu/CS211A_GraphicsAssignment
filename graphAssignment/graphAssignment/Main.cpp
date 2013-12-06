@@ -16,6 +16,7 @@
 #include "inputModule.h"
 #include "globals.h"
 #include "print.h" 
+#include "my_gl_library.h"
 using namespace std;
 
 int window;
@@ -48,7 +49,7 @@ void displayStart(void) {
   glClearDepth( 1 );
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   glEnable(GL_DEPTH_TEST);
-  glLoadIdentity();
+  myGlLibrary ? my_GL_LoadIdentity() : glLoadIdentity();
 }
 
 void initDisplay( ){
@@ -59,40 +60,41 @@ void initDisplay( ){
   pD.farPlane    = 200.0;
 
   /* setup context */
-  glMatrixMode( GL_PROJECTION );
-  glLoadIdentity( );
-  gluPerspective( pD.fieldOfView, pD.aspect, pD.nearPlane, pD.farPlane );
-  glMatrixMode( GL_MODELVIEW );
-  glLoadIdentity();
+  myGlLibrary ? my_GL_MatrixMode(GL_PROJECTION) : glMatrixMode( GL_PROJECTION );
+  myGlLibrary ? my_GL_LoadIdentity() : glLoadIdentity();
+  myGlLibrary ? my_GL_Perspective(pD.fieldOfView, pD.aspect, pD.nearPlane, pD.farPlane) : gluPerspective( pD.fieldOfView, pD.aspect, pD.nearPlane, pD.farPlane );
+  myGlLibrary ? my_GL_MatrixMode(GL_MODELVIEW) : glMatrixMode( GL_MODELVIEW );
+  myGlLibrary ? my_GL_LoadIdentity() : glLoadIdentity();
 }
 
 void drawGeometry() {
-  glTranslatef(position_cube_1[0],position_cube_1[1],position_cube_1[2]);
-  glRotatef(ang1,0,1,0);
-  glPushMatrix();
-  glScalef(scale_cube_1[0],scale_cube_1[1],scale_cube_1[2]);
+  myGlLibrary ? my_GL_translatef(position_cube_1[0],position_cube_1[1],position_cube_1[2]) : glTranslatef(position_cube_1[0],position_cube_1[1],position_cube_1[2]);
+  myGlLibrary ? my_GL_rotatef(ang1,0,1,0) : glRotatef(ang1,0,1,0);
+  myGlLibrary ? my_GL_pushMatrix() : glPushMatrix();
+  myGlLibrary ? my_GL_scalef(scale_cube_1[0],scale_cube_1[1],scale_cube_1[2]) : glScalef(scale_cube_1[0],scale_cube_1[1],scale_cube_1[2]);
   glColor3f(1.0,0.0,0.0);
   drawScene( ); //cube one
-  glPopMatrix();
 
-  glTranslatef(-position_cube_1[0],-position_cube_1[1],-position_cube_1[2]);
 
-  glPushMatrix();
-  glTranslatef(position_cube_2[0],position_cube_2[1],position_cube_2[2]);
+  myGlLibrary ? my_GL_popMatrix() : glPopMatrix();
+  myGlLibrary ? my_GL_translatef(-position_cube_1[0],-position_cube_1[1],-position_cube_1[2]) : glTranslatef(-position_cube_1[0],-position_cube_1[1],-position_cube_1[2]);
+  myGlLibrary ? my_GL_pushMatrix() : glPushMatrix();
+  myGlLibrary ? my_GL_translatef(position_cube_2[0],position_cube_2[1],position_cube_2[2]) : glTranslatef(position_cube_2[0],position_cube_2[1],position_cube_2[2]);
 
   
-  glPushMatrix();
-  glRotatef(ang2,0,1,0);
-  glTranslatef(position_cube_3[0],position_cube_3[1],position_cube_3[2]);
-  glScalef(scale_cube_3[0],scale_cube_3[1],scale_cube_3[2]);
+  myGlLibrary ? my_GL_pushMatrix() : glPushMatrix();
+  myGlLibrary ? my_GL_rotatef(ang2,0,1,0) : glRotatef(ang2,0,1,0);
+  myGlLibrary ? my_GL_translatef(position_cube_3[0],position_cube_3[1],position_cube_3[2]) : glTranslatef(position_cube_3[0],position_cube_3[1],position_cube_3[2]);
+  myGlLibrary ? my_GL_scalef(scale_cube_3[0],scale_cube_3[1],scale_cube_3[2]) : glScalef(scale_cube_3[0],scale_cube_3[1],scale_cube_3[2]);
   glColor3f(0.0,1.0,0.0);
   drawScene( ); //cube three
-  glPopMatrix();
 
-  glScalef(scale_cube_2[0],scale_cube_2[1],scale_cube_2[2]);
+  myGlLibrary ? my_GL_popMatrix() : glPopMatrix();
+
+  myGlLibrary ? my_GL_scalef(scale_cube_2[0],scale_cube_2[1],scale_cube_2[2]) : glScalef(scale_cube_2[0],scale_cube_2[1],scale_cube_2[2]);
   glColor3f(0.0,0.0,1.0);
   drawScene( ); //cube two
-  glPopMatrix();
+  myGlLibrary ? my_GL_popMatrix() : glPopMatrix();
 }
 
 void setSingleLight(int curLightNum, int curLight) {
@@ -106,10 +108,10 @@ void setSingleLight(int curLightNum, int curLight) {
     /*  Draw light position as sphere (still no lighting here) */
     glColor3f(1.0, 1.0, 1.0);
     glDisable(GL_LIGHTING);
-    glPushMatrix();
-    glTranslatef(Position[0],Position[1],Position[2]);
+    myGlLibrary ? my_GL_pushMatrix() : glPushMatrix();
+    myGlLibrary ? my_GL_translatef(Position[0],Position[1],Position[2]) : glTranslatef(Position[0],Position[1],Position[2]);
     glutSolidSphere(0.5,100.0,100.0);
-    glPopMatrix();
+    myGlLibrary ? my_GL_popMatrix() : glPopMatrix();
 
 
     /*  Set ambient, diffuse, specular components and position of light 0 */
@@ -180,6 +182,7 @@ void drawLights() {
 void drawSettings(void) {
   int lS = lightSelected - 16384;
   glColor3f(1.0, 1.0, 1.0);
+  printAt(265, 20, "|  My GL Library = %d", myGlLibrary);
   if (lightOn[lS]) {
     printAt(5, 40, "Ambient:%d, Diffuse:%d, Specular:%d, Shine:%d", ambient[lS], diffuse[lS], specular[lS], shine[lS]);
     printAt(5, 20, "Light %d at position: x:%d, y:%d, z:%d", lS, lightX[lS], lightY[lS], lightZ[lS]);
